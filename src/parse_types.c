@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_types.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
+/*   Updated: 2020/02/18 00:43:17 by ysarsar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/sh.h"
+
+void		ft_word_type(t_parse **ast, t_token **tok)
+{
+	t_parse 	*current;
+	t_token		*token;
+	char		*tmp;
+
+	current = *ast;
+	tmp = NULL;
+	token = *tok;
+	if (!(current->cmd))
+		current->cmd = ft_strdup(token->value);
+	else
+	{
+		tmp = ft_strjoin(current->cmd, " ");
+		free(current->cmd);
+		tmp[ft_strlen(tmp) - 1] = -1;
+		current->cmd = ft_strjoin(tmp, token->value);
+		ft_strdel(&tmp);
+	}
+	*ast = current;
+}
+
+int			ft_separateur_type(t_parse **ast, t_parse *current, t_token *token)
+{
+	t_parse		*cur;
+
+	cur = *ast;
+	if (!(cur->cmd))
+	{
+		ft_putendl_fd("21sh: parse error", 2);
+		ft_strdel(&token->value);
+		return (0);
+	}
+	cur = current;
+	while (cur->sep)
+		cur = cur->sep;
+	if (!(cur->sep = (t_parse*)ft_memalloc(sizeof(t_parse))))
+		return (0);
+	*ast = cur->sep;
+	return (1);
+}
