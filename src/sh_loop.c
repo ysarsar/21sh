@@ -6,13 +6,47 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/18 00:43:24 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/20 17:05:15 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static	void	free_ast(t_parse **ast)
+static	void	free_redirection(t_redirection **redir)
+{
+	t_redirection	*redirection;
+	t_redirection	*next;
+
+	redirection = *redir;
+	while (redirection)
+	{
+		next = redirection->next;
+		ft_strdel(&redirection->left);
+		ft_strdel(&redirection->right);
+		free(redirection);
+		redirection = next;
+	}
+}
+
+static	void	free_pipe(t_parse **root)
+{
+	t_parse		*current;
+	t_parse		*next;
+
+	current = *root;
+	while (current)
+	{
+		if (current->redirection)
+			free_redirection(&current->redirection);
+		if (current->cmd)
+			ft_strdel(&current->cmd);
+		next = current->pipe;
+		free(current);
+		current = next;
+	}
+}
+
+void		free_ast(t_parse **ast)
 {
 	t_parse		*curr;
 	t_parse		*next;
@@ -20,8 +54,12 @@ static	void	free_ast(t_parse **ast)
 	curr = *ast;
 	while (curr)
 	{
+		if (curr->redirection)
+			free_redirection(&curr->redirection);
+		if (curr->pipe)
+			free_pipe(&curr->pipe);
 		if (curr->cmd)
-			free(curr->cmd);
+			ft_strdel(&curr->cmd);
 		next = curr->sep;
 		free(curr);
 		curr = next;
@@ -35,6 +73,8 @@ void		sh_loop(t_env **envp)
 	char	*line;
 	t_parse	*ast;
 	t_parse	*root;
+	t_parse *curr;
+	t_redirection	*redir, *coco;
 
 	status = 1;
 	ast = NULL;
@@ -44,16 +84,14 @@ void		sh_loop(t_env **envp)
 		if ((line = readline("\033[0;32m$> \033[0m")) != NULL)
 		{
 			ast = ft_parse_tree(&line);
-			root = ast;
-			while (ast)
+			// if (check_syntax(ast))
+				//status = sh_execute(&ast, envp);
+			free_ast(&ast);
+			if (ft_strncmp("exit", line, 4) == 0)
 			{
-				printf("[ %s ]\n", ast->cmd);
-				if (strncmp("exit", &(ast->cmd[0]), 4) == 0)
-					exit(0);
-				ast = ast->sep;
+				ft_strdel(&line);
+				break;
 			}
-			//status = sh_execute(&ast, envp);
-			free_ast(&root);
 		}
 		ft_strdel(&line);
 	}

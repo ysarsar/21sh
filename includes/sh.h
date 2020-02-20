@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 22:55:49 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/18 00:14:16 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/20 16:54:48 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef	struct 				s_parse
 
 // shell functions
 void						sh_loop(t_env **envp);
+void						free_ast(t_parse **ast);
 
 // tokenz functions
 int							ft_next_token(char **line, t_token **tok,int mode);
@@ -86,5 +87,7 @@ t_parse						*ft_parse_tree(char **line);
 
 void						ft_word_type(t_parse **ast, t_token **token);
 int							ft_separateur_type(t_parse **ast, t_parse *current, t_token *token);
+int							ft_pipe_type(t_parse **ast,t_token *token);
+int							ft_redirection_type(t_parse **ast, t_token *token);
 
 #endif

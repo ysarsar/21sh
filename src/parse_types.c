@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/18 00:43:17 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/20 16:29:22 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,45 @@ int			ft_separateur_type(t_parse **ast, t_parse *current, t_token *token)
 	if (!(cur->sep = (t_parse*)ft_memalloc(sizeof(t_parse))))
 		return (0);
 	*ast = cur->sep;
+	return (1);
+}
+
+int			ft_pipe_type(t_parse **ast, t_token *token)
+{
+	t_parse		*cur;
+
+	cur = *ast;
+	if (!(cur->cmd))
+	{
+		ft_putendl_fd("21sh: parse error", 2);
+		ft_strdel(&token->value);
+		return (0);
+	}
+	if (!(cur->pipe = (t_parse*)ft_memalloc(sizeof(t_parse))))
+		return (0);
+	*ast = cur->pipe;
+	return (1);
+}
+
+int			ft_redirection_type(t_parse **ast, t_token *token)
+{
+	t_parse			*current;
+	t_redirection	**redir;
+
+	current = *ast;
+	redir = &current->redirection;
+	while (*redir && (*redir)->right)
+		redir = &(*redir)->next;
+	if (!(*redir))
+	{
+		if (!(*redir = (t_redirection*)ft_memalloc(sizeof(t_redirection))))
+			return (0);
+	}
+	if (token->type == L_FD)
+		(*redir)->left = ft_strdup(token->value);
+	else if (token->type == R_FD)
+		(*redir)->right = ft_strdup(token->value);
+	else
+		(*redir)->type = token->type;
 	return (1);
 }

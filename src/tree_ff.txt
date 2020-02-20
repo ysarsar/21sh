@@ -1,0 +1,42 @@
+root = ast;
+			curr = ast;
+			while (ast)
+			{
+				redir = ast->redirection;
+				while (redir)
+				{
+					printf("\n\n\" %s \" -- < %d > -- \" %s \"\n\n", redir->left, redir->type, redir->right);
+					redir = redir->next;
+				}
+				if (curr->pipe)
+				{
+					while (curr)
+					{
+						printf("[ %s ]", curr->cmd);
+						if (curr->pipe)
+						{
+							coco = curr->pipe->redirection;
+							while (coco)
+							{
+								printf("\n\n< %s > -- \" %d \" -- < %s >\n\n", curr->pipe->redirection->left, curr->pipe->redirection->type, curr->pipe->redirection->right);
+								coco = coco->next;
+							}
+						}
+						if (curr->pipe)
+							printf(" | ");
+						else
+							printf("\n");
+						curr = curr->pipe;
+					}
+				}
+				else
+					printf("[ %s ]\n", ast->cmd);
+				if (ft_strncmp("exit", ast->cmd, 4) == 0)
+				{
+					free_ast(&root);
+					ft_strdel(&line);
+					return ;
+				}
+				ast = ast->sep;
+				curr = ast;
+			}
