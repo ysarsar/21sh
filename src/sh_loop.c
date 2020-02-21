@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/20 17:05:15 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/21 23:14:40 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,13 @@ void		sh_loop(t_env **envp)
 	{
 		if ((line = readline("\033[0;32m$> \033[0m")) != NULL)
 		{
-			ast = ft_parse_tree(&line);
-			// if (check_syntax(ast))
-				//status = sh_execute(&ast, envp);
-			free_ast(&ast);
 			if (ft_strncmp("exit", line, 4) == 0)
-			{
-				ft_strdel(&line);
 				break;
-			}
+			ast = ft_parse_tree(&line);
+			if (check_syntax(ast))
+				status = sh_execute(&ast, envp);
 		}
+		free_ast(&ast);
 		ft_strdel(&line);
 	}
 }
