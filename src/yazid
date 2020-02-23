@@ -1,0 +1,14 @@
+total 128
+-rwxr-xr-x  1 ysarsar  candidate  24620 Feb 23 20:44 a.out
+drwxr-xr-x  3 ysarsar  candidate    102 Feb 23 20:36 a.out.dSYM
+-rw-r--r--  1 ysarsar  candidate   1743 Feb 22 23:48 builtins.c
+-rw-r--r--  1 ysarsar  candidate   2214 Feb 22 23:45 environement.c
+-rw-r--r--  1 ysarsar  candidate   1490 Feb 23 20:44 execute_redirection.c
+-rw-r--r--  1 ysarsar  candidate   2947 Feb 22 23:53 execute_simple_cmd.c
+-rw-r--r--  1 ysarsar  candidate   1720 Feb 17 02:34 main.c
+drwxr-xr-x  8 ysarsar  candidate    272 Feb 22 18:26 parser
+-rw-r--r--  1 ysarsar  candidate   1559 Feb 22 00:15 path_checker.c
+-rw-r--r--  1 ysarsar  candidate   2216 Feb 23 19:02 sh_execution.c
+-rw-r--r--  1 ysarsar  candidate   2236 Feb 22 18:23 sh_loop.c
+-rw-r--r--  1 ysarsar  candidate   1787 Feb 22 22:55 tools.c
+-rw-r--r--  1 ysarsar  candidate      0 Feb 23 20:45 yazid

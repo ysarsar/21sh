@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 02:38:21 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/21 15:26:51 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/22 17:54:07 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static	void	ft_next_token2(char **line, int *i, t_token **tok, int *redir)
 	}
 	else if (tmp[0])
 		ft_check_word(&token, &tmp);
+	free(tmp);
+	//printf("***********\n");
 	*i = k;
 }
 

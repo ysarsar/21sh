@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/21 15:26:30 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/22 18:19:30 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,22 @@ void		ft_word_type(t_parse **ast, t_token **tok)
 	tmp = NULL;
 	token = *tok;
 	if (!(current->cmd))
-		current->cmd = ft_strdup(token->value);
+	{
+		if (token->value)
+			current->cmd = ft_strdup(token->value);
+		else
+			current->cmd = ft_strnew(1);
+	}
 	else
 	{
-		tmp = ft_strjoin(current->cmd, " ");
-		free(current->cmd);
-		tmp[ft_strlen(tmp) - 1] = -1;
-		current->cmd = ft_strjoin(tmp, token->value);
-		ft_strdel(&tmp);
+		if (token->value)
+		{
+			tmp = ft_strjoin(current->cmd, " ");
+			free(current->cmd);
+			tmp[ft_strlen(tmp) - 1] = -1;
+			current->cmd = ft_strjoin(tmp, token->value);
+			ft_strdel(&tmp);
+		}
 	}
 	*ast = current;
 }

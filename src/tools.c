@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:55:10 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 00:31:38 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/22 22:55:26 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,50 @@ void		exec_error(char *str, int c)
 	if (c == 1)
 	{
 		ft_putstr(str);
-		ft_putendl(": Permission denied.");
+		ft_putendl_fd(": Permission denied.", 2);
 	}
 	else if (c == 2)
 	{
 		ft_putstr(str);
-		ft_putendl(": Command not found.");
+		ft_putendl_fd(": Command not found.", 2);
 	}
 }
 
 void		error_msg(char *str)
 {
 	ft_putstr(str);
-	ft_putendl(": command not found.");
+	ft_putendl_fd(": command not found.", 2);
+}
+
+int			args_len(char **args)
+{
+	int		i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
+}
+
+int		ft_datalen(char *data)
+{
+	int	i;
+
+	i = 0;
+	while (data[i] != '\0')
+	{
+		if (data[i] == '=')
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+int		print_error(int c)
+{
+	if (c == 1)
+		ft_putendl_fd("setenv: Variable name must begin with a letter.", 2);
+	else if (c == 2)
+		ft_putendl_fd("setenv: too many arguments.", 2);
+	return (1);
 }

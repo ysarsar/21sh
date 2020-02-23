@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 17:05:51 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/21 15:26:24 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/22 17:00:45 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ int			check_syntax(t_parse *ast)
 		return (0);
 	while (current)
 	{
+		if (current->pipe)
+		{
+			if (check_pipe_syntax(current))
+				return (0);
+		}
+		else if (!current->cmd)
+		{
+			ft_putendl_fd("21sh: semicolon error.", 2);
+			return (0);
+		}
 		if (current->redirection)
 		{
 			if (check_redirection_syntax(current->redirection))
 				return (0);
-		}
-		if (current->pipe)
-		{
-			if (check_pipe_syntax(current->pipe))
-				return (0);
-		}
-		if (!current->cmd)
-		{
-			ft_putendl_fd("21sh: semicolon error.", 2);
-			return (0);
 		}
 		current = current->sep;
 	}
