@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:55:10 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 22:55:26 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/24 00:55:55 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,23 @@ int		print_error(int c)
 	else if (c == 2)
 		ft_putendl_fd("setenv: too many arguments.", 2);
 	return (1);
+}
+
+int		check_fd(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		if (str[i + 1] == '-')
+			break;
+		i++;
+	}
+	if (str[i + 1] == '-' && str[i + 2] == '\0')
+		return (1);
+	ft_putstr_fd("21sh: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(": ambiguous redirect", 2);
+	return (0);
 }

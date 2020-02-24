@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/23 19:02:33 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/23 23:42:31 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ int         sh_execute(t_parse **ast, t_env **envp)
 		fd[0] = dup(0);
 		fd[1] = dup(1);
 		fd[2] = dup(2);
+		fd[3] = 1337;
         // if (current->pipe)
         //     execute_pipe(current, envp, tab);
         // else
         // {
             if (current->redirection)
                 fd[3] = execute_redirection(current->redirection);
-            status = execute_simple_cmd(current->cmd, tab, envp);
+			if (fd[3] >= 0)
+            	status = execute_simple_cmd(current->cmd, tab, envp);
         // }
 		close(fd[3]);
 		close(0);
