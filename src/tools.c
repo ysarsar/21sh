@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:55:10 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/24 00:55:55 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/25 00:22:04 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,28 @@ int		check_fd(char *str)
 			break;
 		i++;
 	}
-	if (str[i + 1] == '-' && str[i + 2] == '\0')
+	if (str[i] == '\0' || str[i] == '-')
+		return (1);
+	else if (str[i + 1] == '-' && str[i + 2] == '\0')
 		return (1);
 	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(": ambiguous redirect", 2);
 	return (0);
+}
+
+int		check_word_fd(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalpha(str[i]))
+			break;
+		i++;
+	}
+	if (ft_isalpha(str[i]))
+		return (0);
+	return (1);
 }
