@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 18:23:45 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/26 23:25:34 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,22 @@ void		sh_loop(t_env **envp)
 	int		status;
 	char	*line;
 	t_parse	*ast;
-	t_parse	*root;
-	t_parse *curr;
-	t_redirection	*redir, *coco;
+	char	*tty;
 
 	status = 1;
 	ast = NULL;
-	line = NULL;
-	while (status)
+	if ((tty = ttyname(0)))
 	{
-		if ((line = readline("\033[0;32m$> \033[0m")) != NULL)
+		while (status)
 		{
-			ast = ft_parse_tree(&line);
-			if (check_syntax(ast))
-				status = sh_execute(&ast, envp);
+			if ((line = readline("\033[0;32m$> \033[0m")) != NULL)
+			{
+				ast = ft_parse_tree(&line);
+				if (check_syntax(ast))
+					status = sh_execute(&ast, envp, tty);
+			}
+			free_ast(&ast);
+			ft_strdel(&line);
 		}
-		free_ast(&ast);
-		ft_strdel(&line);
 	}
 }

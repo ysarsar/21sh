@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:44:59 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/26 16:58:11 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/26 23:30:00 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ static	char	*ft_document(t_redirection *redir)
 {
 	char 	*heredoc;
 	char 	*text;
+	char	*ptr;
 	char	*tmp;
 	int		c;
 
@@ -157,15 +158,18 @@ static	char	*ft_document(t_redirection *redir)
 		}
 		else
 		{
+			ptr = text;
 			text = ft_strjoin(text, tmp);
+			ft_strdel(&ptr);
 			ft_strdel(&tmp);
 		}
 		ft_strdel(&heredoc);
 	}
+	ft_strdel(&heredoc);
 	return (text);
 }
 
-static	int	ft_heredoc(t_redirection *redir, int fd)
+static	int	ft_heredoc(t_redirection *redir)
 {
 	char	*doc;
 	int		pip[2];
@@ -173,10 +177,11 @@ static	int	ft_heredoc(t_redirection *redir, int fd)
 	doc = ft_document(redir);
 	pipe(pip);
 	ft_putstr_fd(doc, pip[1]);
+	ft_strdel(&doc);
 	close(pip[1]);
 	dup2(pip[0], 0);
 	close(pip[0]);
-	return(fd);
+	return (255);
 }
 
 int			execute_redirection(t_redirection *redirection)
@@ -208,7 +213,7 @@ int			execute_redirection(t_redirection *redirection)
 				break;
 		}
 		else if (redirection->type == HEREDOC)
-			fd = ft_heredoc(current, fd);
+			fd = ft_heredoc(current);
 		current = current->next;
 	}
 	return (fd);

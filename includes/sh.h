@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 22:55:49 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/20 16:54:48 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/26 22:32:14 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef	struct 				s_parse
 
 // shell functions
 void						sh_loop(t_env **envp);
+
 void						free_ast(t_parse **ast);
 
 // tokenz functions
@@ -89,5 +90,37 @@ void						ft_word_type(t_parse **ast, t_token **token);
 int							ft_separateur_type(t_parse **ast, t_parse *current, t_token *token);
 int							ft_pipe_type(t_parse **ast,t_token *token);
 int							ft_redirection_type(t_parse **ast, t_token *token);
+
+// Check syntax function
+int							check_syntax(t_parse *ast);
+
+// Execution functions
+int         				sh_execute(t_parse **ast, t_env **envp, char *tty);
+
+int							execute_simple_cmd(char *cmd, char **tab, t_env **envp);
+char						*valid_path(char *cmd_name, char **tab);
+
+// Builtins functions
+int							ft_env(t_env *envp);
+int							ft_setenv(t_env **envp, char **args);
+int							ft_unsetenv(t_env **envp, char **args);
+
+// Environement func
+void						ft_add_variable(t_env **envp, char **args, int c);
+int							delete_var(t_env **env, char *arg);
+
+// Redirection functions
+int							execute_redirection(t_redirection *redirection);
+
+// Tools function
+void						free_tab(char **arg);
+void						exec_error(char *str, int c);
+void						error_msg(char *str);
+int							args_len(char **args);
+int							ft_datalen(char *data);
+int							print_error(int c);
+int							check_fd(char *str);
+int							check_word_fd(char *str);
+int							check_fd(char *str);
 
 #endif
