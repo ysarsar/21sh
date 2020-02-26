@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:44:59 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/26 00:56:24 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/26 16:58:11 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,44 @@ static	int	ft_agg_in(t_redirection *redir, int fd)
 	return (fd);
 }
 
+static	char	*ft_document(t_redirection *redir)
+{
+	char 	*heredoc;
+	char 	*text;
+	char	*tmp;
+	int		c;
+
+	c = 0;
+	while (ft_strcmp((heredoc = readline("> ")), redir->right) != 0)
+	{
+		tmp = ft_strjoin(heredoc, "\n");
+		if (!c)
+		{
+			text = tmp;
+			c = 1;
+		}
+		else
+		{
+			text = ft_strjoin(text, tmp);
+			ft_strdel(&tmp);
+		}
+		ft_strdel(&heredoc);
+	}
+	return (text);
+}
+
 static	int	ft_heredoc(t_redirection *redir, int fd)
 {
-	fd = open(redir->right, O_RDWR);
+	char	*doc;
+	int		pip[2];
+
+	doc = ft_document(redir);
+	pipe(pip);
+	ft_putstr_fd(doc, pip[1]);
+	close(pip[1]);
+	dup2(pip[0], 0);
+	close(pip[0]);
+	return(fd);
 }
 
 int			execute_redirection(t_redirection *redirection)

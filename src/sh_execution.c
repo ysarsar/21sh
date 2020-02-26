@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/25 17:22:31 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/26 17:40:53 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int         sh_execute(t_parse **ast, t_env **envp)
     tab = list_to_tab(envp); //must be freed here ^_^
     while (current)
     {
-		fd[0] = fork();
-		if (fd[0] == 0)
-		{
+		// fd[0] = fork();
+		// if (fd[0] == 0)
+		// {
         // if (current->pipe)
         //     execute_pipe(current, envp, tab);
         // else
@@ -66,11 +66,11 @@ int         sh_execute(t_parse **ast, t_env **envp)
                 fd[1] = execute_redirection(current->redirection);
 			if (fd[1] >= 0)
             	status = execute_simple_cmd(current->cmd, tab, envp);
-			exit(0);
+			// exit(0);
         // }
-		}
-		else
-			wait(NULL);
+		// }
+		// else
+		// 	wait(NULL);
         current = current->sep;
     }
     free_tab(tab);

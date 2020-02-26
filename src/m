@@ -1,0 +1,27 @@
+a.out
+builtins.c
+environement.c
+execute_redirection.c
+execute_simple_cmd.c
+m
+main.c
+parser
+path_checker.c
+sh_execution.c
+sh_loop.c
+tools.c
+total 152
+-rwxr-xr-x  1 ysarsar  candidate  29012 Feb 26 16:42 a.out
+-rw-r--r--  1 ysarsar  candidate   1743 Feb 22 23:48 builtins.c
+-rw-r--r--  1 ysarsar  candidate   2214 Feb 22 23:45 environement.c
+-rw-r--r--  1 ysarsar  candidate   4322 Feb 26 16:42 execute_redirection.c
+-rw-r--r--  1 ysarsar  candidate   2947 Feb 25 16:55 execute_simple_cmd.c
+-rw-r--r--  1 ysarsar  candidate    139 Feb 26 16:42 m
+-rw-r--r--  1 ysarsar  candidate   1721 Feb 24 17:51 main.c
+drwxr-xr-x  8 ysarsar  candidate    272 Feb 22 18:26 parser
+-rw-r--r--  1 ysarsar  candidate   1559 Feb 22 00:15 path_checker.c
+-rw-r--r--  1 ysarsar  candidate   2118 Feb 25 17:22 sh_execution.c
+-rw-r--r--  1 ysarsar  candidate   2236 Feb 22 18:23 sh_loop.c
+-rw-r--r--  1 ysarsar  candidate   2313 Feb 25 00:22 tools.c
+YAZID SARSAR$
+Marrakech$
