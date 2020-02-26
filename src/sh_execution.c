@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/23 23:42:31 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:22:31 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,29 @@ int         sh_execute(t_parse **ast, t_env **envp)
     t_parse *current;
     char    **tab;
     int     status;
-	int		fd[4];
+	int		fd[2];
 
     current = *ast;
     status = 1;
     tab = list_to_tab(envp); //must be freed here ^_^
     while (current)
     {
-		fd[0] = dup(0);
-		fd[1] = dup(1);
-		fd[2] = dup(2);
-		fd[3] = 1337;
+		fd[0] = fork();
+		if (fd[0] == 0)
+		{
         // if (current->pipe)
         //     execute_pipe(current, envp, tab);
         // else
         // {
             if (current->redirection)
-                fd[3] = execute_redirection(current->redirection);
-			if (fd[3] >= 0)
+                fd[1] = execute_redirection(current->redirection);
+			if (fd[1] >= 0)
             	status = execute_simple_cmd(current->cmd, tab, envp);
+			exit(0);
         // }
-		close(fd[3]);
-		close(0);
-		dup(fd[0]);
-		close(fd[0]);
-		close(1);
-		dup(fd[1]);
-		close(fd[1]);
-		close(2);
-		dup(fd[2]);
-		close(fd[2]);
+		}
+		else
+			wait(NULL);
         current = current->sep;
     }
     free_tab(tab);
