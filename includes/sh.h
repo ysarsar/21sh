@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 22:55:49 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/26 22:32:14 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:29:18 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,11 @@ void						ft_add_variable(t_env **envp, char **args, int c);
 int							delete_var(t_env **env, char *arg);
 
 // Redirection functions
-int							execute_redirection(t_redirection *redirection);
+int							execute_redirection(t_redirection *redirection, char *tty);
+void						ft_reset_fd(char *tty, int file_d);
+
+// Pipe execution
+int							execute_pipe(t_parse *ast, t_env **envp, char **tab, char *tty);
 
 // Tools function
 void						free_tab(char **arg);
@@ -122,5 +126,6 @@ int							print_error(int c);
 int							check_fd(char *str);
 int							check_word_fd(char *str);
 int							check_fd(char *str);
+int							redirect_error(t_redirection *redirect);
 
 #endif
