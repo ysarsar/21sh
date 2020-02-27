@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:29:09 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 23:45:30 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:12:38 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static	void	list_push(char *var, t_env **envp)
 	current = *envp;
 	if (!(new_node = (t_env*)ft_memalloc(sizeof(t_env))))
 		exit(EXIT_FAILURE);
-		new_node->data = ft_strdup(var);
-		new_node->next = NULL;
+	new_node->data = ft_strdup(var);
+	new_node->next = NULL;
 	if (!current)
 	{
 		*envp = new_node;
@@ -48,7 +48,7 @@ void			ft_add_variable(t_env **envp, char **args, int c)
 		{
 			ft_strdel(&env->data);
 			env->data = ft_strdup(var);
-			break;
+			break ;
 		}
 		env = env->next;
 	}
@@ -56,7 +56,7 @@ void			ft_add_variable(t_env **envp, char **args, int c)
 		list_push(var, envp);
 }
 
-int		delete_var(t_env **env, char *arg)
+int				delete_var(t_env **env, char *arg)
 {
 	t_env	*temp;
 	t_env	*prev;

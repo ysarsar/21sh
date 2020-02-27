@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:55:10 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/25 00:22:04 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:28:53 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void		exec_error(char *str, int c)
 {
 	if (c == 1)
 	{
-		ft_putstr(str);
+		ft_putstr_fd(str, 2);
 		ft_putendl_fd(": Permission denied.", 2);
 	}
 	else if (c == 2)
 	{
-		ft_putstr(str);
+		ft_putstr_fd(str, 2);
 		ft_putendl_fd(": Command not found.", 2);
 	}
 }
 
 void		error_msg(char *str)
 {
-	ft_putstr(str);
+	ft_putstr_fd(str, 2);
 	ft_putendl_fd(": command not found.", 2);
 }
 
@@ -114,4 +114,12 @@ int		check_word_fd(char *str)
 	if (ft_isalpha(str[i]))
 		return (0);
 	return (1);
+}
+
+int		redirect_error(t_redirection *redirect)
+{
+	ft_putstr_fd("21sh: ", 2);
+	ft_putstr_fd(redirect->right, 2);
+	ft_putendl_fd(": No such file or directory", 2);
+	return (-1);
 }

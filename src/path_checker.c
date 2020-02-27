@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:35:51 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 00:15:32 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:16:18 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ char			*valid_path(char *cmd_name, char **tab)
 	int		i;
 
 	i = -1;
-	if (!tab)
-		return (NULL);
-	if (!(p = find_path(tab)))
+	if (!(p = find_path(tab)) || !tab)
 		return (NULL);
 	path = ft_strsplit(&p[5], ':');
 	while (path[++i])
@@ -55,4 +53,3 @@ char			*valid_path(char *cmd_name, char **tab)
 	free_tab(path);
 	return (NULL);
 }
-

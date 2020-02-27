@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/26 23:07:51 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 21:40:41 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static  char	**list_to_tab(t_env **envp)
 	return (tab);
 }
 
-static	void	ft_reset_fd(char *tty, int file_d)
+void	ft_reset_fd(char *tty, int file_d)
 {
 	int 	fd;
 
@@ -63,23 +63,25 @@ int         sh_execute(t_parse **ast, t_env **envp, char *tty)
     t_parse *current;
     char    **tab;
     int     status;
-	int		fd[2];
+	int		fd;
 
     current = *ast;
     status = 1;
+	fd = 0;
     tab = list_to_tab(envp);
     while (current)
     {
-        // if (current->pipe)
-        //     execute_pipe(current, envp, tab);
-        // else
-        // {
+        if (current->pipe)
+            fd = execute_pipe(current, envp, tab, tty);
+        else
+        {
             if (current->redirection)
-                fd[1] = execute_redirection(current->redirection);
-			if (fd[1] >= 0)
+                fd = execute_redirection(current->redirection, tty);
+			if (fd >= 0)
             	status = execute_simple_cmd(current->cmd, tab, envp);
-			ft_reset_fd(tty, fd[1]);
-		// }
+		}
+		if (fd > 0)
+			ft_reset_fd(tty, fd);
         current = current->sep;
     }
     free_tab(tab);

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 04:59:05 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 16:57:52 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 21:06:41 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int			ft_quotes(char **cmd, int i, char **tmp_token)
 		while (!is_white(str[i]) && !ft_is_there("'\";|><", str[i]) && i <= ft_strlen(str) && str[i])
 				tmp[j++] = str[i++];
 	}
+	if (ft_is_there(";|><", str[i]))
+		return (i);
 	if ((str[i] == '\'' || str[i] == '"') && !is_white(str[i + 1]) && i < ft_strlen(str))
 	{
 		i = ft_quotes(&str, i, &tmp);

@@ -6,28 +6,23 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:44:59 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/26 23:30:00 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:30:10 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static	int	ft_redir_inout(t_redirection *redirect, int fd)
+static	int		ft_redir_inout(t_redirection *redirect, int fd)
 {
 	int		left;
-	
+
 	if (redirect->type == REDIR_OUT)
 		fd = open(redirect->right, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else
 	{
 		fd = open(redirect->right, O_RDONLY);
 		if (fd < 0)
-		{
-			ft_putstr_fd("21sh: ", 2);
-			ft_putstr_fd(redirect->right, 2);
-			ft_putendl_fd(": No such file or directory", 2);
-			return (fd);
-		}
+			return (redirect_error(redirect));
 	}
 	if (redirect->left)
 	{
@@ -44,10 +39,10 @@ static	int	ft_redir_inout(t_redirection *redirect, int fd)
 	return (fd);
 }
 
-static	int	ft_redir_append(t_redirection *redir, int fd)
+static	int		ft_redir_append(t_redirection *redir, int fd)
 {
 	int		left;
-	
+
 	fd = open(redir->right, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (redir->left)
 	{
@@ -59,7 +54,7 @@ static	int	ft_redir_append(t_redirection *redir, int fd)
 	return (fd);
 }
 
-static	int	ft_agg_digit(t_redirection *redir, int fd, int left)
+static	int		ft_agg_digit(t_redirection *redir, int fd, int left)
 {
 	fd = ft_atoi(redir->right);
 	if (fd != left)
@@ -73,7 +68,7 @@ static	int	ft_agg_digit(t_redirection *redir, int fd, int left)
 	return (fd);
 }
 
-static	int	ft_agg_close(t_redirection *redir, int fd, int left)
+static	int		ft_agg_close(t_redirection *redir, int fd, int left)
 {
 	char *file_d;
 
@@ -89,7 +84,7 @@ static	int	ft_agg_close(t_redirection *redir, int fd, int left)
 	return (fd);
 }
 
-static	int	ft_agg_word(t_redirection *redir, int fd, int left)
+static	int		ft_agg_word(t_redirection *redir, int fd, int left)
 {
 	fd = open(redir->right, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd != left)
@@ -101,7 +96,7 @@ static	int	ft_agg_word(t_redirection *redir, int fd, int left)
 	return (fd);
 }
 
-static	int	ft_agg_out(t_redirection *redir, int fd)
+static	int		ft_agg_out(t_redirection *redir, int fd)
 {
 	int		left;
 
@@ -120,7 +115,7 @@ static	int	ft_agg_out(t_redirection *redir, int fd)
 	return (fd);
 }
 
-static	int	ft_agg_in(t_redirection *redir, int fd)
+static	int		ft_agg_in(t_redirection *redir, int fd)
 {
 	int left;
 
@@ -169,9 +164,10 @@ static	char	*ft_document(t_redirection *redir)
 	return (text);
 }
 
-static	int	ft_heredoc(t_redirection *redir)
+static	int		ft_heredoc(t_redirection *redir, char *tty)
 {
 	char	*doc;
+	int		fd;
 	int		pip[2];
 
 	doc = ft_document(redir);
@@ -179,12 +175,16 @@ static	int	ft_heredoc(t_redirection *redir)
 	ft_putstr_fd(doc, pip[1]);
 	ft_strdel(&doc);
 	close(pip[1]);
+	// fd = open (tty, O_RDWR);
+	// close(0);
+	// dup(fd);
+	// close(fd);
 	dup2(pip[0], 0);
 	close(pip[0]);
 	return (255);
 }
 
-int			execute_redirection(t_redirection *redirection)
+int				execute_redirection(t_redirection *redirection, char *tty)
 {
 	t_redirection 	*current;
 	int				fd;
@@ -213,7 +213,7 @@ int			execute_redirection(t_redirection *redirection)
 				break;
 		}
 		else if (redirection->type == HEREDOC)
-			fd = ft_heredoc(current);
+			fd = ft_heredoc(current, tty);
 		current = current->next;
 	}
 	return (fd);

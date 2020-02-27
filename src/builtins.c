@@ -6,13 +6,13 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 21:58:57 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 23:48:09 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:07:22 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-int		ft_env(t_env *envp)
+int			ft_env(t_env *envp)
 {
 	t_env *current;
 
@@ -25,7 +25,7 @@ int		ft_env(t_env *envp)
 	return (1);
 }
 
-int		ft_setenv(t_env **envp, char **args)
+int			ft_setenv(t_env **envp, char **args)
 {
 	int		i;
 
@@ -51,7 +51,7 @@ int		ft_setenv(t_env **envp, char **args)
 
 int			ft_unsetenv(t_env **envp, char **args)
 {
-	int 	i;
+	int		i;
 	char	*var;
 
 	i = args_len(args);
