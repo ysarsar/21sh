@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 17:05:09 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 05:00:26 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		sh_loop(t_env **envp)
 	{
 		while (status)
 		{
-			if ((line = readline("\033[0;32m$> \033[0m")) != NULL)
+			if ((line = readline("21sh-1.0$ ")) != NULL)
 			{
 				ast = ft_parse_tree(&line);
 				if (check_syntax(ast))

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 17:16:08 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:11:27 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 01:07:42 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int			execute_pipe(t_parse *ast, t_env **envp, char **tab, char *tty)
 		if (pid == 0)
 		{
 			close(pip[0]);
+			if (cmd_nbr != 0 && fd != 255)
+				dup2(tmp, 0);
+			if (current->pipe)
+				dup2(pip[1], 1);
 			if (current->redirection)
 			{
 				if (current->redirection->type == HEREDOC)
 					ft_reset_fd(tty, fd);
 				execute_redirection(current->redirection, tty);
 			}
-			if (cmd_nbr != 0 && fd != 255)
-				dup2(tmp, 0);
-			if (current->pipe)
-				dup2(pip[1], 1);
 			close(pip[1]);
 			execute_simple_cmd(current->cmd, tab, envp);
 			exit(0);

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 21:40:41 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 06:26:55 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	ft_reset_fd(char *tty, int file_d)
 	int 	fd;
 
 	fd = open(tty, O_RDWR);
-	close(0);
-	dup(fd);
-	close(1);
-	dup(fd);
-	close(2);
-	dup(fd);
-	close(fd);
-	close(file_d);
+	dup2(fd, 0);
+	dup2(fd, 1);
+	dup2(fd, 2);
+	if (file_d > 2 && fd > 2)
+	{
+		close(fd);
+		close(file_d);
+	}
 }
 
 int         sh_execute(t_parse **ast, t_env **envp, char *tty)
@@ -79,9 +79,8 @@ int         sh_execute(t_parse **ast, t_env **envp, char *tty)
                 fd = execute_redirection(current->redirection, tty);
 			if (fd >= 0)
             	status = execute_simple_cmd(current->cmd, tab, envp);
-		}
-		if (fd > 0)
 			ft_reset_fd(tty, fd);
+		}
         current = current->sep;
     }
     free_tab(tab);

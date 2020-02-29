@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:44:59 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:30:10 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 06:01:06 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ static	int		ft_agg_out(t_redirection *redir, int fd)
 	if (ft_is_numeric(redir->right))
 		fd = ft_agg_digit(redir, fd, left);
 	else if (ft_strcmp(redir->right, "-") == 0)
+	{
 		close(left);
+		return (255);
+	}
 	else if (redir->right[ft_strlen(redir->right) - 1] == '-')
 		fd = ft_agg_close(redir, fd, left);
 	else
@@ -126,7 +129,10 @@ static	int		ft_agg_in(t_redirection *redir, int fd)
 	if (ft_is_numeric(redir->right))
 		fd = ft_agg_digit(redir, fd, left);
 	else if (ft_strcmp(redir->right, "-") == 0)
+	{
 		close(left);
+		return (255);
+	}
 	else if (redir->right[ft_strlen(redir->right) - 1] == '-')
 		fd = ft_agg_close(redir, fd, left);
 	else
@@ -175,10 +181,10 @@ static	int		ft_heredoc(t_redirection *redir, char *tty)
 	ft_putstr_fd(doc, pip[1]);
 	ft_strdel(&doc);
 	close(pip[1]);
-	// fd = open (tty, O_RDWR);
-	// close(0);
-	// dup(fd);
-	// close(fd);
+	fd = open (tty, O_RDWR);
+	close(0);
+	dup(fd);
+	close(fd);
 	dup2(pip[0], 0);
 	close(pip[0]);
 	return (255);

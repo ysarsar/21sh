@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:13:27 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:19:37 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 05:18:02 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static	void	execute_with_path(char **args, char **tab)
 
 static	int		check_builtins(char **args, t_env **env)
 {
-	char	*home;
 	t_env	*envp;
 
 	envp = *env;
@@ -88,13 +87,13 @@ static	int		check_builtins(char **args, t_env **env)
 		return (ft_setenv(env, args));
 	else if (ft_strcmp(args[0], "unsetenv") == 0)
 		return (ft_unsetenv(env, args));
-	/*else if (ft_strcmp(args[0], "cd") == 0)
+	else if (ft_strcmp(args[0], "cd") == 0)
 	{
-		ft_cd(args, home, envp);
+		ft_cd(args, envp);
 		return (1);
 	}
 	else if (ft_strcmp(args[0], "echo") == 0)
-		return (ft_echo(args)); */
+		return (ft_echo(args));
 	return (0);
 }
 
@@ -111,6 +110,7 @@ int				execute_simple_cmd(char *cmd, char **tab, t_env **envp)
 			if (i == 2)
 			{
 				free_tab(args);
+				ft_putendl_fd("exit", 2);
 				return (0);
 			}
 		}

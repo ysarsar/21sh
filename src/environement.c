@@ -6,13 +6,13 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:29:09 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:12:38 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 08:15:30 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static	void	list_push(char *var, t_env **envp)
+void			list_push(char *var, t_env **envp)
 {
 	t_env *current;
 	t_env *new_node;
@@ -38,7 +38,6 @@ void			ft_add_variable(t_env **envp, char **args, int c)
 	char	*var;
 
 	env = *envp;
-	printf("- %s -\n", args[1]);
 	var = ft_strcat(args[1], "=");
 	if (c == 3)
 		var = ft_strcat(var, args[2]);

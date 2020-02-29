@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 21:58:57 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:07:22 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 07:53:43 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,44 @@ int			ft_unsetenv(t_env **envp, char **args)
 	}
 	else
 		ft_putendl_fd("unsetenv: Too few arguments.", 2);
+	return (1);
+}
+
+int			ft_cd(char **args, t_env *envp)
+{
+	int		i;
+	char 	*home;
+	char	*var;
+	char	*cwd;
+	char	buff[PATH_MAX + 1];
+
+	i = ft_argslen(args);
+	if ((cwd = getcwd(buff, PATH_MAX + 1)))
+	{
+		if ((home = getenv("HOME")))
+		{
+			ft_cd_glob(home, args, envp, var);
+			ft_env_owd(cwd, envp);
+			ft_env_cwd(envp);
+		}
+		else
+			ft_putendl_fd("21sh: cd: HOME not set", 2);
+	}
+	return (1);
+}
+
+int			ft_echo(char **args)
+{
+	int		i;
+
+	i = 1;
+	while (args[i])
+	{
+		ft_putstr(args[i]);
+		if (args[i + 1] != NULL)
+			ft_putchar(' ');
+		i++;
+	}
+	ft_putchar('\n');
 	return (1);
 }

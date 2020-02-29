@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:55:10 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/27 23:28:53 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/02/29 04:52:21 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,14 @@ int		redirect_error(t_redirection *redirect)
 	ft_putstr_fd(redirect->right, 2);
 	ft_putendl_fd(": No such file or directory", 2);
 	return (-1);
+}
+
+int		ft_argslen(char **args)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
 }
