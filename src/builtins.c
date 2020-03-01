@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 21:58:57 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 07:53:43 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 05:56:51 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			ft_setenv(t_env **envp, char **args)
 {
 	int		i;
 
-	i = args_len(args);
+	i = ft_argslen(args);
 	if (i == 1)
 		ft_env(*envp);
 	else if (i == 2)
@@ -54,7 +54,7 @@ int			ft_unsetenv(t_env **envp, char **args)
 	int		i;
 	char	*var;
 
-	i = args_len(args);
+	i = ft_argslen(args);
 	if (i > 1)
 	{
 		i = 0;
@@ -72,23 +72,21 @@ int			ft_unsetenv(t_env **envp, char **args)
 int			ft_cd(char **args, t_env *envp)
 {
 	int		i;
-	char 	*home;
+	char	*home;
 	char	*var;
 	char	*cwd;
 	char	buff[PATH_MAX + 1];
 
 	i = ft_argslen(args);
-	if ((cwd = getcwd(buff, PATH_MAX + 1)))
+	cwd = getcwd(buff, PATH_MAX + 1);
+	if ((home = getenv("HOME")))
 	{
-		if ((home = getenv("HOME")))
-		{
-			ft_cd_glob(home, args, envp, var);
-			ft_env_owd(cwd, envp);
-			ft_env_cwd(envp);
-		}
-		else
-			ft_putendl_fd("21sh: cd: HOME not set", 2);
+		ft_cd_glob(home, args, envp, var);
+		ft_env_owd(cwd, envp);
+		ft_env_cwd(envp);
 	}
+	else
+		ft_putendl_fd("21sh: cd: HOME not set", 2);
 	return (1);
 }
 

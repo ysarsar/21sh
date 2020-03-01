@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 17:05:51 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 17:00:45 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 08:20:41 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	int	check_redirection_syntax(t_redirection *redirection)
 	{
 		if (!redir->right)
 		{
-			ft_putendl_fd("21sh: redir error.", 2);
+			ft_putendl_fd("21sh: syntax error near unexpected token", 2);
 			return (1);
 		}
 		redir = redir->next;
@@ -43,7 +43,7 @@ static	int	check_pipe_syntax(t_parse *ast)
 		}
 		if (!current->cmd)
 		{
-			ft_putendl_fd("21sh: pipe error.", 2);
+			ft_putendl_fd("21sh: syntax error near unexpected token", 2);
 			return (1);
 		}
 		current = current->pipe;
@@ -67,7 +67,7 @@ int			check_syntax(t_parse *ast)
 		}
 		else if (!current->cmd)
 		{
-			ft_putendl_fd("21sh: semicolon error.", 2);
+			ft_putendl_fd("21sh: syntax error near unexpected token", 2);
 			return (0);
 		}
 		if (current->redirection)

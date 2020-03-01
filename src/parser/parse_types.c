@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 18:19:30 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 08:22:42 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void		ft_word_type(t_parse **ast, t_token **tok)
 {
-	t_parse 	*current;
+	t_parse		*current;
 	t_token		*token;
 	char		*tmp;
 
 	current = *ast;
-	tmp = NULL;
 	token = *tok;
 	if (!(current->cmd))
 	{

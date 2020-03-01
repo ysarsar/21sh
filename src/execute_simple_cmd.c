@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:13:27 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 05:18:02 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 14:36:56 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,14 @@ static	int		check_builtins(char **args, t_env **env)
 int				execute_simple_cmd(char *cmd, char **tab, t_env **envp)
 {
 	char		**args;
+	char		**arr;
 	int			i;
 
 	if (cmd[0])
 	{
-		args = ft_strsplit(cmd, -1);
+		arr = ft_strsplit(cmd, -1);
+		if (!(args = ft_expantions(arr, envp)))
+			return (free_tab2(arr, NULL));
 		if ((i = check_builtins(args, envp)))
 		{
 			if (i == 2)
@@ -118,7 +121,7 @@ int				execute_simple_cmd(char *cmd, char **tab, t_env **envp)
 			execute_without_path(args, tab);
 		else
 			execute_with_path(args, tab);
-		free_tab(args);
+		free_tab2(args, NULL);
 	}
 	return (1);
 }

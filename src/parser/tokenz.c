@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 02:38:21 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 04:08:59 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 13:49:56 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	void	ft_next_token2(char **line, int *i, t_token **tok, int *redir)
 	str = *line;
 	token = *tok;
 	if (!(tmp = ft_strnew(1024)))
-		return;
+		return ;
 	while (str[k] && !is_white(str[k]) && !ft_is_there("'\";|><", str[k]))
 		tmp[j++] = str[k++];
 	if (str[k] == '\'' || str[k] == '"')
@@ -46,7 +46,7 @@ static	void	ft_next_token2(char **line, int *i, t_token **tok, int *redir)
 	*i = k;
 }
 
-int			ft_next_token(char **line, t_token **tok,int mode)
+int			ft_next_token(char **line, t_token **tok, int mode)
 {
 	char		*str;
 	static	int	i = 0;
@@ -71,7 +71,7 @@ int			ft_next_token(char **line, t_token **tok,int mode)
 		}
 		else if (str[i] == '<' || str[i] == '>' || str[i] == '&')
 			return (i = ft_redirection(str, &token, i, &redir));
-		else if ( str[i] && !is_white(str[i]))
+		else if (str[i] && !is_white(str[i]))
 		{
 			ft_next_token2(&str, &i, &token, &redir);
 			*line = str;
@@ -83,35 +83,3 @@ int			ft_next_token(char **line, t_token **tok,int mode)
 	*line = str;
 	return (0);
 }
-
-// int		main()
-// {
-// 	t_token *token;
-// 	char	*line;
-// 	int		i;
-
-// 	token = NULL;
-// 	while (1)
-// 	{
-// 		if ((line = readline("\033[0;32m$> \033[0m")))
-// 		{
-// 			if (ft_strncmp("exit", line, 4) == 0)
-// 				break;
-// 			ft_next_token(&line, &token, 0);
-// 			while ((i = ft_next_token(&line, &token, 1)) > 0)
-// 			{
-// 				printf("[ %s ]\n{ %d }\n", token->value, token->type);
-// 				free(token->value);
-// 				free(token);
-// 			}
-// 			if (i < 0)
-// 				printf("Parse error\n");
-// 		}
-// 		free(line);
-// 		free(token->value);
-// 		free(token);
-// 	}
-// 	if (line)
-// 		free(line);
-// 	return (0);
-// }

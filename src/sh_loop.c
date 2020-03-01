@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 05:00:26 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 04:09:03 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	void	free_pipe(t_parse **root)
 	}
 }
 
-void		free_ast(t_parse **ast)
+void			free_ast(t_parse **ast)
 {
 	t_parse		*curr;
 	t_parse		*next;
@@ -67,7 +67,7 @@ void		free_ast(t_parse **ast)
 	*ast = NULL;
 }
 
-void		sh_loop(t_env **envp)
+void			sh_loop(t_env **envp)
 {
 	int		status;
 	char	*line;

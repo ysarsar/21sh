@@ -6,56 +6,80 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 17:16:08 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 01:07:42 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 12:28:38 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-int			execute_pipe(t_parse *ast, t_env **envp, char **tab, char *tty)
+static	void			execute_pipe2(t_parse *ast, t_pipe_variable **var)
 {
-	int		pip[2];
-	int		pid;
-	int		cmd_nbr;
-	int		tmp, fd;
-	t_parse	*current;
+	t_parse			*current;
+	t_pipe_variable	*variable;
 
 	current = ast;
-	cmd_nbr = 0;
-	tmp = 0;
+	variable = *var;
+	close(variable->pip[0]);
+	if (variable->cmd_nbr != 0)
+		dup2(variable->tmp, 0);
+	if (current->pipe)
+		dup2(variable->pip[1], 1);
+	close(variable->pip[1]);
+	if (current->redirection)
+	{
+		if (current->redirection->type == HEREDOC)
+			ft_reset_fd(variable->tty, 1);
+		execute_redirection(current->redirection, variable->tty);
+	}
+}
+
+static	t_pipe_variable	*execute_pipe1(t_parse *ast, t_pipe_variable **var,
+										char **tab, t_env **envp)
+{
+	t_parse			*current;
+	t_pipe_variable *variable;
+
+	current = ast;
+	variable = *var;
+	if (pipe(variable->pip) == -1)
+		return (NULL);
+	variable->pid = fork();
+	if (variable->pid == 0)
+	{
+		execute_pipe2(current, &variable);
+		execute_simple_cmd(current->cmd, tab, envp);
+		exit(0);
+	}
+	close(variable->pip[1]);
+	if (variable->cmd_nbr != 0)
+		close(variable->tmp);
+	variable->tmp = variable->pip[0];
+	variable->cmd_nbr++;
+	return (variable);
+}
+
+int						execute_pipe(t_parse *ast, t_env **envp, char **tab,
+									char *tty)
+{
+	t_pipe_variable	*variable;
+	t_parse			*current;
+
+	current = ast;
+	if (!(variable = (t_pipe_variable*)ft_memalloc(sizeof(t_pipe_variable))))
+		return (-1);
+	variable->cmd_nbr = 0;
+	variable->tmp = 0;
+	variable->tty = tty;
 	while (current)
 	{
-		if (pipe(pip) == -1)
-			return (-1);
-		pid = fork();
-		if (pid == 0)
-		{
-			close(pip[0]);
-			if (cmd_nbr != 0 && fd != 255)
-				dup2(tmp, 0);
-			if (current->pipe)
-				dup2(pip[1], 1);
-			if (current->redirection)
-			{
-				if (current->redirection->type == HEREDOC)
-					ft_reset_fd(tty, fd);
-				execute_redirection(current->redirection, tty);
-			}
-			close(pip[1]);
-			execute_simple_cmd(current->cmd, tab, envp);
-			exit(0);
-		}
-		close(pip[1]);
-		if (cmd_nbr != 0)
-			close(tmp);
-		tmp = pip[0];
-		cmd_nbr++;
+		variable = execute_pipe1(current, &variable, tab, envp);
 		current = current->pipe;
 	}
-	close(tmp);
-	if (pid)
+	close(variable->tmp);
+	if (variable->pid)
 		while (wait(NULL) > 0)
 		{
 		}
+	free(variable);
 	return (255);
 }

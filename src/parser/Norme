@@ -1,0 +1,14 @@
+Norme: ./check_quotes.c
+Error (line 33): function ft_quotes has 37 lines
+Norme: ./check_syntax.c
+Norme: ./parser.c
+Error (line 25): function ft_parse_tree has 49 lines
+Norme: ./tokenz.c
+Error: global scope bad aligned
+Error (line 15): function ft_next_token2 has 30 lines
+Error (line 49): function ft_next_token has 34 lines
+Norme: ./parse_types.c
+Norme: ./tokenz_checker.c
+Error: 6 functions in the file
+Error (line 35): function ft_redirection has 40 lines
+Error (line 93): ft_check_fd have 5 parameters

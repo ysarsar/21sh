@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:00:03 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/22 17:24:30 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 13:52:36 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,18 @@ int		ft_check_fd(char *str, char **tmp, t_token **token, int i, int mode)
 		tok->type = R_FD;
 	else
 		tok->type = WORD;
-	tok->value = ft_strdup(*tmp); // ++ 
+	tok->value = ft_strdup(*tmp);
 	return (1);
 }
 
 int		ft_check_word(t_token **token, char **tmp)
 {
-	t_token *tok;
-	char *str;
+	t_token	*tok;
+	char	*str;
 
 	tok = *token;
 	str = *tmp;
-	tok->value = ft_strdup(str); // ++
+	tok->value = ft_strdup(str);
 	tok->type = WORD;
 	return (1);
 }

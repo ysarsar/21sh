@@ -6,22 +6,11 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 02:20:55 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 08:07:52 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 03:27:40 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
-
-static	char	*ft_changedir(char *str, char *cwd)
-{
-	char	*var;
-	char	*path;
-
-	var = ft_strjoin(cwd, "/");
-	path = ft_strjoin(var, str);
-	ft_strdel(&var);
-	return (path);
-}
 
 static	char	*ft_search_env(char *str, t_env *envp)
 {
@@ -46,8 +35,6 @@ static	int		ft_cd_back(char *cwd, t_env *envp)
 	ft_putendl_fd(var, 2);
 	if (chdir(var) < 0)
 		ft_putendl_fd("21sh: cd: No such file or directory", 2);
-	// ft_env_owd(cwd, envp);
-	// ft_env_cwd(envp);
 	return (1);
 }
 
@@ -59,8 +46,6 @@ static	int		ft_cd_dir(char *cwd, t_env *envp, char **args)
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": No such file or directory", 2);
 	}
-	// ft_env_owd(cwd, envp);
-	// ft_env_cwd(envp);
 	return (1);
 }
 

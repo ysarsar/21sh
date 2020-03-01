@@ -6,13 +6,13 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 06:26:55 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/01 10:06:19 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static  char	**list_to_tab(t_env **envp)
+static	char	**list_to_tab(t_env **envp)
 {
 	t_env	*current;
 	char	**tab;
@@ -20,14 +20,11 @@ static  char	**list_to_tab(t_env **envp)
 
 	current = *envp;
 	tab = NULL;
-	i = 0;
-    if (!current)
+	i = -1;
+	if (!current)
 		return (NULL);
-	while (current != NULL)
-	{
+	while (++i >= 0 && current != NULL)
 		current = current->next;
-		i++;
-	}
 	if (!(tab = (char **)ft_memalloc(sizeof(char*) * (i + 1))))
 		return (tab);
 	i = 0;
@@ -43,46 +40,45 @@ static  char	**list_to_tab(t_env **envp)
 	return (tab);
 }
 
-void	ft_reset_fd(char *tty, int file_d)
+void			ft_reset_fd(char *tty, int file_d)
 {
-	int 	fd;
+	int		fd;
 
 	fd = open(tty, O_RDWR);
 	dup2(fd, 0);
 	dup2(fd, 1);
 	dup2(fd, 2);
-	if (file_d > 2 && fd > 2)
-	{
-		close(fd);
+	if (file_d > 2)
 		close(file_d);
-	}
+	if (fd > 2)
+		close(fd);
 }
 
-int         sh_execute(t_parse **ast, t_env **envp, char *tty)
+int				sh_execute(t_parse **ast, t_env **envp, char *tty)
 {
-    t_parse *current;
-    char    **tab;
-    int     status;
+	t_parse *current;
+	char	**tab;
+	int		status;
 	int		fd;
 
-    current = *ast;
-    status = 1;
+	current = *ast;
+	status = 1;
 	fd = 0;
-    tab = list_to_tab(envp);
-    while (current)
-    {
-        if (current->pipe)
-            fd = execute_pipe(current, envp, tab, tty);
-        else
-        {
-            if (current->redirection)
-                fd = execute_redirection(current->redirection, tty);
+	tab = list_to_tab(envp);
+	while (current)
+	{
+		if (current->pipe)
+			fd = execute_pipe(current, envp, tab, tty);
+		else
+		{
+			if (current->redirection)
+				fd = execute_redirection(current->redirection, tty);
 			if (fd >= 0)
-            	status = execute_simple_cmd(current->cmd, tab, envp);
+				status = execute_simple_cmd(current->cmd, tab, envp);
 			ft_reset_fd(tty, fd);
 		}
-        current = current->sep;
-    }
-    free_tab(tab);
-    return (status);
+		current = current->sep;
+	}
+	free_tab(tab);
+	return (status);
 }
