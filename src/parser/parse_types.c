@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 08:22:42 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/02 21:24:12 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,41 @@ int			ft_pipe_type(t_parse **ast, t_token *token)
 	return (1);
 }
 
+static	char	*ft_document(char *redir_right)
+{
+	char	*heredoc;
+	char	*text;
+	char	*ptr;
+	char	*tmp;
+	int		c;
+
+	c = 0;
+	while (ft_strcmp((heredoc = readline("> ")), redir_right) != 0)
+	{
+		printf("heeere\n");
+		tmp = ft_strjoin(heredoc, "\n");
+		if (!c)
+		{
+			text = tmp;
+			c = 1;
+		}
+		else
+		{
+			ptr = text;
+			text = ft_strjoin(ptr, tmp);
+			free_str(ptr, tmp);
+		}
+		ft_strdel(&heredoc);
+	}
+	ft_strdel(&heredoc);
+	return (text);
+}
+
 int			ft_redirection_type(t_parse **ast, t_token *token)
 {
 	t_parse			*current;
 	t_redirection	**redir;
+	char			*heredoc;
 
 	current = *ast;
 	redir = &current->redirection;
@@ -95,7 +126,16 @@ int			ft_redirection_type(t_parse **ast, t_token *token)
 	if (token->type == L_FD)
 		(*redir)->left = ft_strdup(token->value);
 	else if (token->type == R_FD)
+	{
 		(*redir)->right = ft_strdup(token->value);
+		if ((*redir)->type == HEREDOC)
+		{
+			heredoc = ft_document(token->value);
+			ft_strdel(&(*redir)->right);
+			(*redir)->right = heredoc;
+			printf("[ %s ]\n", heredoc);
+		}
+	}
 	else
 		(*redir)->type = token->type;
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 02:38:21 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 13:49:56 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/02 18:12:54 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,19 @@ static	void	ft_next_token2(char **line, int *i, t_token **tok, int *redir)
 		return ;
 	while (str[k] && !is_white(str[k]) && !ft_is_there("'\";|><", str[k]))
 		tmp[j++] = str[k++];
-	if (str[k] == '\'' || str[k] == '"')
-	{
-		k = ft_quotes(&str, k, &tmp);
+	if ((str[k] == '\'' || str[k] == '"') && (k = ft_quotes(&str, k, &tmp)))
 		*line = str;
-	}
 	if (str[k] == '>' || str[k] == '<')
 		ft_check_fd(str, &tmp, &token, k, 0);
-	else if (*redir)
-	{
-		*redir = 0;
+	else if (*redir && !(*redir = 0))
 		ft_check_fd(str, &tmp, &token, k, 1);
-	}
 	else if (tmp[0])
 		ft_check_word(&token, &tmp);
 	free(tmp);
 	*i = k;
 }
 
-int			ft_next_token(char **line, t_token **tok, int mode)
+int				ft_next_token(char **line, t_token **tok, int mode)
 {
 	char		*str;
 	static	int	i = 0;

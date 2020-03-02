@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 04:59:05 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 08:19:09 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/02 15:45:31 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int				ft_quotes(char **cmd, int i, char **tmp_token)
 			str = ft_quote_continue(str, c);
 			*cmd = str;
 		}
-		if (str[i] == '\0' || str[i + 1] == '\0')
-			tmp[j++] = '\n';
-		else
-			tmp[j++] = str[i];
+		tmp[j++] = (str[i] == '\0' || str[i + 1] == '\0') ? '\n' : str[i];
 	}
 	if (str[i] == c && !is_white(str[i + 1]))
 	{

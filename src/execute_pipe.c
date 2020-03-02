@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 17:16:08 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 12:28:38 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/02 21:29:33 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ static	void			execute_pipe2(t_parse *ast, t_pipe_variable **var)
 		dup2(variable->pip[1], 1);
 	close(variable->pip[1]);
 	if (current->redirection)
-	{
-		if (current->redirection->type == HEREDOC)
-			ft_reset_fd(variable->tty, 1);
 		execute_redirection(current->redirection, variable->tty);
-	}
 }
 
 static	t_pipe_variable	*execute_pipe1(t_parse *ast, t_pipe_variable **var,
