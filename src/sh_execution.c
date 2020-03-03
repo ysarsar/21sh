@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 15:29:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 10:06:19 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/03 01:05:43 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int				sh_execute(t_parse **ast, t_env **envp, char *tty)
 	current = *ast;
 	status = 1;
 	fd = 0;
+
 	tab = list_to_tab(envp);
 	while (current)
 	{

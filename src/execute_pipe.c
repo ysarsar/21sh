@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 17:16:08 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/02 21:29:33 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/03 01:14:19 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static	void			execute_pipe2(t_parse *ast, t_pipe_variable **var)
 	variable = *var;
 	close(variable->pip[0]);
 	if (variable->cmd_nbr != 0)
+	{
 		dup2(variable->tmp, 0);
+		close(variable->tmp);
+	}
 	if (current->pipe)
 		dup2(variable->pip[1], 1);
 	close(variable->pip[1]);
