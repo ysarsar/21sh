@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/01 02:52:26 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 12:43:26 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/03 22:15:21 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int		ft_agg_digit(t_redirection *redir, int fd, int left)
 	{
 		if (dup2(fd, left) < 0)
 		{
-			printf("21sh: %d: Bad file descriptor\n", fd);
+			ft_putstr_fd("21sh: ", 2);
+			ft_putnbr_fd(fd, 2);
+			ft_putendl_fd(": Bad file descriptor\n", 2);
 			return (-1);
 		}
 	}

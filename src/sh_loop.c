@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/03 01:04:48 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/03 23:21:32 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static	void	free_redirection(t_redirection **redir)
 	while (redirection)
 	{
 		next = redirection->next;
-		ft_strdel(&redirection->left);
-		ft_strdel(&redirection->right);
+		if (redirection->left)
+			ft_strdel(&redirection->left);
+		if (redirection->right)
+			ft_strdel(&redirection->right);
 		free(redirection);
 		redirection = next;
 	}

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/02 21:24:12 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/03 23:13:32 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ static	char	*ft_document(char *redir_right)
 	int		c;
 
 	c = 0;
+	text = NULL;
 	while (ft_strcmp((heredoc = readline("> ")), redir_right) != 0)
 	{
-		printf("heeere\n");
 		tmp = ft_strjoin(heredoc, "\n");
 		if (!c)
 		{
@@ -102,9 +102,12 @@ static	char	*ft_document(char *redir_right)
 			text = ft_strjoin(ptr, tmp);
 			free_str(ptr, tmp);
 		}
-		ft_strdel(&heredoc);
+		printf("h\n");
+		if (heredoc)
+			ft_strdel(&heredoc);
 	}
-	ft_strdel(&heredoc);
+	if (heredoc)
+		ft_strdel(&heredoc);
 	return (text);
 }
 
@@ -132,8 +135,8 @@ int			ft_redirection_type(t_parse **ast, t_token *token)
 		{
 			heredoc = ft_document(token->value);
 			ft_strdel(&(*redir)->right);
-			(*redir)->right = heredoc;
-			printf("[ %s ]\n", heredoc);
+			if (heredoc)
+				(*redir)->right = heredoc;
 		}
 	}
 	else

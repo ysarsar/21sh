@@ -6,43 +6,15 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 16:13:27 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/03 01:01:48 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 02:03:58 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static	void	execute_without_path(char **args, char **tab)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (access(args[0], F_OK) == 0)
-		{
-			if (access(args[0], X_OK) == 0)
-			{
-				if (execve(args[0], args, tab) == -1)
-					ft_putendl_fd("21sh: Error exec.", 2);
-			}
-			else
-				exec_error(args[0], 1);
-		}
-		else
-			exec_error(args[0], 2);
-		exit(1);
-	}
-	else if (pid < 0)
-		ft_putendl_fd("21sh: Error forking.", 2);
-	else
-		wait(NULL);
-}
-
 static	void	sh_lunche(char *cmd_name, char **args, char **env)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -72,6 +44,33 @@ static	void	execute_with_path(char **args, char **tab)
 	else
 		exec_error(args[0], 1);
 	ft_strdel(&path);
+}
+
+static	void	execute_without_path(char **args, char **tab)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (access(args[0], F_OK) == 0)
+		{
+			if (access(args[0], X_OK) == 0)
+			{
+				if (execve(args[0], args, tab) == -1)
+					ft_putendl_fd("21sh: Error exec", 2);
+			}
+			else
+				exec_error(args[0], 1);
+		}
+		else
+			exec_error(args[0], 2);
+		exit(1);
+	}
+	else if (pid < 0)
+		ft_putendl_fd("21sh: Error forking.", 2);
+	else
+		wait(NULL);
 }
 
 static	int		check_builtins(char **args, t_env **env)

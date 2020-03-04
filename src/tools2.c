@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/01 06:04:47 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 14:43:40 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 02:21:56 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ int			free_tab2(char **args, char **arr)
 	if (arr)
 		free_tab(arr);
 	return (1);
+}
+
+int			is_special(char c)
+{
+	if (c == '#' || c == '/' || c == '~' || c == '@'
+		|| c == '^' || c == '$')
+		return (1);
+	return (0);
 }

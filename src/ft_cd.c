@@ -6,25 +6,11 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 02:20:55 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 03:27:40 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 02:09:47 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
-
-static	char	*ft_search_env(char *str, t_env *envp)
-{
-	t_env *current;
-
-	current = envp;
-	while (current)
-	{
-		if (ft_strncmp(current->data, str, ft_strlen(str)) == 0)
-			return (&(current->data[ft_datalen(current->data) + 1]));
-		current = current->next;
-	}
-	return (NULL);
-}
 
 static	int		ft_cd_back(char *cwd, t_env *envp)
 {

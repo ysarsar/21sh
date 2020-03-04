@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 22:55:49 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 14:31:57 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 02:47:41 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,13 @@ int							execute_pipe(t_parse *ast, t_env **envp, char **tab, char *tty);
 // Expantions functions
 char						**ft_expantions(char **args, t_env **envp);
 
+char						*ft_var_name(char *str);
+char						*ft_search_env(char *str, t_env *envp);
+char						*ft_change_arg(char *key, char *str, char *var);
+void						change_home(t_env **envp, char **arg);
+char						**line_error(char *str);
+int							ft_is_a_user(char **str, char *key);
+
 // Tools function
 char						*free_tab(char **arg);
 void						exec_error(char *str, int c);
@@ -156,5 +163,6 @@ void						free_str(char *ptr, char *tmp);
 char						*ft_changedir(char *str, char *cwd);
 int							is_white(char c);
 int							free_tab2(char **args, char **arr);
+int							is_special(char c);
 
 #endif
