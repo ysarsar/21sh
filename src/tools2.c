@@ -12,14 +12,14 @@
 
 #include "../includes/sh.h"
 
-char		*free_tab(char **arg)
+char		*free_tabs(char **arg)
 {
-	char	**tab;
+	char	**tabs;
 	int		i;
 
-	tab = arg;
+	tabs = arg;
 	i = -1;
-	if (!tab)
+	if (!tabs)
 		return (NULL);
 	while (arg[++i])
 		ft_strdel(&arg[i]);
@@ -44,12 +44,12 @@ char		*ft_changedir(char *str, char *cwd)
 	return (path);
 }
 
-int			free_tab2(char **args, char **arr)
+int			free_tabs2(char **args, char **arr)
 {
 	if (args)
-		free_tab(args);
+		free_tabs(args);
 	if (arr)
-		free_tab(arr);
+		free_tabs(arr);
 	return (1);
 }
 

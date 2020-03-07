@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 22:57:26 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/24 17:51:23 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/05 01:47:53 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ int				main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	envp = my_getenv(env);
+	if (*env)
+		envp = my_getenv(env);
 	sh_loop(&envp);
 	free_env(envp);
+	if (g_copy.copy)
+		ft_strdel(&g_copy.copy);
 	return (0);
 }

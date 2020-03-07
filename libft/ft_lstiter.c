@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:17:21 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:23 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/16 18:46:46 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/04/17 20:00:13 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
 {
-	t_list *next_lst;
-	t_list *p;
-
-	p = lst;
-	while (p != NULL)
+	if (lst != NULL)
 	{
-		next_lst = p->next;
-		f(p);
-		p = next_lst;
+		while (lst)
+		{
+			f(lst);
+			lst = lst->next;
+		}
 	}
 }

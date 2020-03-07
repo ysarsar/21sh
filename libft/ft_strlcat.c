@@ -3,34 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:21:41 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:26:05 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/11 20:23:14 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/04/17 22:08:39 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t srclen;
-	size_t destlen;
-	size_t w;
+	size_t	i;
+	size_t	j;
+	size_t	len_dest;
+	char	*str;
 
-	srclen = ft_strlen(src);
-	destlen = ft_strlen((const char *)dest);
-	if (destlen >= size)
-		srclen = srclen + size;
-	else
-		srclen = srclen + destlen;
-	w = 0;
-	while (src[w] != '\0' && destlen + 1 < size)
+	str = (char *)src;
+	i = 0;
+	j = 0;
+	len_dest = ft_strlen(dst);
+	while (dst[i])
+		i++;
+	if (size > ft_strlen(dst))
 	{
-		dest[destlen] = src[w];
-		destlen++;
-		w++;
+		while (str[j] && i < size - 1)
+		{
+			dst[i] = str[j];
+			i++;
+			j++;
+		}
+		dst[i] = '\0';
+		return (len_dest + ft_strlen(str));
 	}
-	dest[destlen] = '\0';
-	return (srclen);
+	return (ft_strlen(str) + size);
 }

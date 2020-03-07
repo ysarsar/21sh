@@ -3,69 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:23:12 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:26:21 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/07 08:03:43 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/11/29 00:21:11 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int			word_count(char *s, char c)
+char		**ft_strsplit(char const *s, char c)
 {
-	int				i;
-	int				res;
-
-	i = 0;
-	res = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c && s[i + 1] == c)
-			res++;
-		i++;
-	}
-	if (s[i] == '\0' && s[i - 1] != c)
-		res++;
-	return (res);
-}
-
-static int			word_len(char *s, char c)
-{
-	int				len;
-
-	len = 0;
-	while (*s != c && *s != '\0')
-	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-
-char				**ft_strsplit(char const *s, char c)
-{
-	int			word_countx;
-	char		**str;
-	int			i;
+	int		i;
+	int		j;
+	char	**bigarr;
+	char	*str;
 
 	if (!s)
 		return (NULL);
-	word_countx = word_count((char *)s, c);
-	str = (char**)malloc(sizeof(char*) * word_countx + 1);
+	str = (char*)s;
 	i = 0;
-	if (!str)
+	bigarr = (char **)malloc(sizeof(char *) * (ft_countwords(str, c) + 1));
+	if (bigarr == NULL)
 		return (NULL);
-	while (word_countx-- && *s)
+	j = ft_countwords(str, c);
+	while (j-- && *str)
 	{
-		while (*s == c && *s != '\0')
-			s++;
-		str[i] = ft_strsub((char *)s, 0, word_len((char*)s, c));
-		if (!str[i])
+		while (*str && *str == c)
+			str++;
+		if (!(bigarr[i] = ft_strsub(str, 0, ft_len_words(str, c))))
 			return (NULL);
-		s = s + word_len((char *)s, c);
+		str = str + ft_len_words(str, c);
 		i++;
 	}
-	str[i] = 0;
-	return (str);
+	bigarr[i] = 0;
+	return (bigarr);
 }

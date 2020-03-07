@@ -12,32 +12,32 @@
 
 #include "../includes/sh.h"
 
-static	char	**list_to_tab(t_env **envp)
+static	char	**list_to_tabs(t_env **envp)
 {
 	t_env	*current;
-	char	**tab;
+	char	**tabs;
 	int		i;
 
 	current = *envp;
-	tab = NULL;
+	tabs = NULL;
 	i = -1;
 	if (!current)
 		return (NULL);
 	while (++i >= 0 && current != NULL)
 		current = current->next;
-	if (!(tab = (char **)ft_memalloc(sizeof(char*) * (i + 1))))
-		return (tab);
+	if (!(tabs = (char **)ft_memalloc(sizeof(char*) * (i + 1))))
+		return (tabs);
 	i = 0;
 	current = *envp;
 	while (current != NULL)
 	{
 		if (current->data)
-			tab[i] = ft_strdup(current->data);
+			tabs[i] = ft_strdup(current->data);
 		current = current->next;
 		i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	tabs[i] = NULL;
+	return (tabs);
 }
 
 void			ft_reset_fd(char *tty, int file_d)
@@ -57,28 +57,28 @@ void			ft_reset_fd(char *tty, int file_d)
 int				sh_execute(t_parse **ast, t_env **envp, char *tty)
 {
 	t_parse *current;
-	char	**tab;
+	char	**tabs;
 	int		status;
 	int		fd;
 
 	current = *ast;
 	status = 1;
 	fd = 0;
-	tab = list_to_tab(envp);
+	tabs = list_to_tabs(envp);
 	while (current)
 	{
 		if (current->pipe)
-			fd = execute_pipe(current, envp, tab, tty);
+			fd = execute_pipe(current, envp, tabs, tty);
 		else
 		{
 			if (current->redirection)
 				fd = execute_redirection(current->redirection, tty);
 			if (fd >= 0)
-				status = execute_simple_cmd(current->cmd, tab, envp);
+				status = execute_simple_cmd(current->cmd, tabs, envp);
 			ft_reset_fd(tty, fd);
 		}
 		current = current->sep;
 	}
-	free_tab(tab);
+	free_tabs(tabs);
 	return (status);
 }

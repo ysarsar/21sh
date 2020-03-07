@@ -29,24 +29,24 @@ static	void	sh_lunche(char *cmd_name, char **args, char **env)
 		wait(NULL);
 }
 
-static	void	execute_with_path(char **args, char **tab)
+static	void	execute_with_path(char **args, char **tabs)
 {
 	char	*path;
 
-	path = valid_path(args[0], tab);
+	path = valid_path(args[0], tabs);
 	if (!path)
 	{
 		exec_error(args[0], 2);
 		return ;
 	}
 	else if (access(path, X_OK) == 0)
-		sh_lunche(path, args, tab);
+		sh_lunche(path, args, tabs);
 	else
 		exec_error(args[0], 1);
 	ft_strdel(&path);
 }
 
-static	void	execute_without_path(char **args, char **tab)
+static	void	execute_without_path(char **args, char **tabs)
 {
 	pid_t	pid;
 
@@ -57,7 +57,7 @@ static	void	execute_without_path(char **args, char **tab)
 		{
 			if (access(args[0], X_OK) == 0)
 			{
-				if (execve(args[0], args, tab) == -1)
+				if (execve(args[0], args, tabs) == -1)
 					ft_putendl_fd("21sh: Error exec", 2);
 			}
 			else
@@ -96,7 +96,7 @@ static	int		check_builtins(char **args, t_env **env)
 	return (0);
 }
 
-int				execute_simple_cmd(char *cmd, char **tab, t_env **envp)
+int				execute_simple_cmd(char *cmd, char **tabs, t_env **envp)
 {
 	char		**args;
 	char		**arr;
@@ -106,21 +106,21 @@ int				execute_simple_cmd(char *cmd, char **tab, t_env **envp)
 	{
 		arr = ft_strsplit(cmd, -1);
 		if (!(args = ft_expantions(arr, envp)))
-			return (free_tab2(arr, NULL));
+			return (free_tabs2(arr, NULL));
 		if ((i = check_builtins(args, envp)))
 		{
 			if (i == 2)
 			{
-				free_tab(args);
+				free_tabs(args);
 				ft_putendl_fd("exit", 2);
 				return (0);
 			}
 		}
 		else if (args[0][0] == '/' || args[0][0] == '.')
-			execute_without_path(args, tab);
+			execute_without_path(args, tabs);
 		else
-			execute_with_path(args, tab);
-		free_tab2(args, NULL);
+			execute_with_path(args, tabs);
+		free_tabs2(args, NULL);
 	}
 	return (1);
 }

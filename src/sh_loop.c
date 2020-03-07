@@ -6,67 +6,36 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 23:02:07 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/03 23:21:32 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/07 10:11:18 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-static	void	free_redirection(t_redirection **redir)
+static	int		sh_loop2(char **line, t_his **his, t_parse **tree, t_env **envp)
 {
-	t_redirection	*redirection;
-	t_redirection	*next;
+	int		status;
+	char	*tty;
+	t_parse	*ast;
 
-	redirection = *redir;
-	while (redirection)
-	{
-		next = redirection->next;
-		if (redirection->left)
-			ft_strdel(&redirection->left);
-		if (redirection->right)
-			ft_strdel(&redirection->right);
-		free(redirection);
-		redirection = next;
-	}
+	status = 0;
+	tty = ttyname(0);
+	*tree = ft_parse_tree(line, his);
+	if (line && *line)
+		ft_add_his(his, *line);
+	ast = *tree;
+	if (*envp)
+		if (check_syntax(ast))
+			status = sh_execute(&ast, envp, tty);
+	return (status);
 }
 
-static	void	free_pipe(t_parse **root)
+static	void	free_loop(t_parse **ast, char **line)
 {
-	t_parse		*current;
-	t_parse		*next;
-
-	current = *root;
-	while (current)
-	{
-		if (current->redirection)
-			free_redirection(&current->redirection);
-		if (current->cmd)
-			ft_strdel(&current->cmd);
-		next = current->pipe;
-		free(current);
-		current = next;
-	}
-}
-
-void			free_ast(t_parse **ast)
-{
-	t_parse		*curr;
-	t_parse		*next;
-
-	curr = *ast;
-	while (curr)
-	{
-		if (curr->redirection)
-			free_redirection(&curr->redirection);
-		if (curr->pipe)
-			free_pipe(&curr->pipe);
-		if (curr->cmd)
-			ft_strdel(&curr->cmd);
-		next = curr->sep;
-		free(curr);
-		curr = next;
-	}
-	*ast = NULL;
+	if (g_cmd)
+		ft_strdel(&g_cmd);
+	free_ast(ast);
+	ft_strdel(line);
 }
 
 void			sh_loop(t_env **envp)
@@ -74,22 +43,26 @@ void			sh_loop(t_env **envp)
 	int		status;
 	char	*line;
 	t_parse	*ast;
-	char	*tty;
+	t_his	*his;
 
 	status = 1;
 	ast = NULL;
-	if ((tty = ttyname(0)))
+	his = NULL;
+	if ((ttyname(0)))
 	{
 		while (status)
 		{
-			if (((line = readline("21sh-1.0$ ")) != NULL) && line[0])
+			if (((line = my_readline(&his, "21sh-1.0$ ")) != NULL) && line[0])
 			{
-				ast = ft_parse_tree(&line);
-				if (check_syntax(ast))
-					status = sh_execute(&ast, envp, tty);
+				if (line[0] != -6)
+					status = sh_loop2(&line, &his, &ast, envp);
+				else
+					status = 0;
 			}
-			free_ast(&ast);
-			ft_strdel(&line);
+			else
+				return ;
+			free_loop(&ast, &line);
 		}
+		ft_free_his(&his);
 	}
 }

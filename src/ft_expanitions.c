@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expanitions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/04 02:04:47 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/04 03:26:14 by ysarsar          ###   ########.fr       */
+/*   Created: 2020/03/04 04:48:47 by ommadhi           #+#    #+#             */
+/*   Updated: 2020/03/04 04:54:27 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sh.h"
 
-int	static		search_slash(char *str)
+static int		search_slash(char *str)
 {
 	int		i;
 
@@ -20,7 +20,7 @@ int	static		search_slash(char *str)
 	while (str[i])
 	{
 		if (str[i] == '/')
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -28,10 +28,11 @@ int	static		search_slash(char *str)
 
 int				ft_is_a_user(char **str, char *key)
 {
-	int 	ch;
+	int		ch;
 	char	*user;
 	char	*ptr;
 	char	*tmp;
+
 	ptr = *str;
 	tmp = NULL;
 	ch = search_slash(key);

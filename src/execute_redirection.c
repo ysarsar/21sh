@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:44:59 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/03 22:04:00 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 04:31:46 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static	int		ft_agg_in(t_redirection *redir, int fd)
 
 static	int		ft_heredoc(t_redirection *redir, char *tty)
 {
-	char	*doc;
 	int		fd;
 	int		pip[2];
 	int		tmp;
@@ -83,7 +82,6 @@ int				execute_redirection(t_redirection *redirection, char *tty)
 {
 	t_redirection	*current;
 	int				fd;
-	int				c;
 
 	current = redirection;
 	fd = 0;

@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 21:58:57 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/01 05:56:51 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 04:31:03 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int			ft_cd(char **args, t_env *envp)
 	char	buff[PATH_MAX + 1];
 
 	i = ft_argslen(args);
+	var = NULL;
 	cwd = getcwd(buff, PATH_MAX + 1);
 	if ((home = getenv("HOME")))
 	{

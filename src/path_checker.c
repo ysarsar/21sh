@@ -12,21 +12,21 @@
 
 #include "../includes/sh.h"
 
-static	char	*find_path(char **tab)
+static	char	*find_path(char **tabs)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
+	while (tabs[i])
 	{
-		if (ft_strncmp(tab[i], "PATH=", 5) == 0)
-			return (tab[i]);
+		if (ft_strncmp(tabs[i], "PATH=", 5) == 0)
+			return (tabs[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char			*valid_path(char *cmd_name, char **tab)
+char			*valid_path(char *cmd_name, char **tabs)
 {
 	char	*p;
 	char	*str1;
@@ -35,7 +35,7 @@ char			*valid_path(char *cmd_name, char **tab)
 	int		i;
 
 	i = -1;
-	if (!(p = find_path(tab)) || !tab)
+	if (!(p = find_path(tabs)) || !tabs)
 		return (NULL);
 	path = ft_strsplit(&p[5], ':');
 	while (path[++i])
@@ -45,11 +45,11 @@ char			*valid_path(char *cmd_name, char **tab)
 		ft_strdel(&str1);
 		if (access(str2, F_OK) == 0)
 		{
-			free_tab(path);
+			free_tabs(path);
 			return (str2);
 		}
 		ft_strdel(&str2);
 	}
-	free_tab(path);
+	free_tabs(path);
 	return (NULL);
 }

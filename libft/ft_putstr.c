@@ -3,20 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:20:21 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:47 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/04 21:40:17 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/11/24 22:36:06 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+int		ft_putstr(char const *str)
 {
-	if (s)
+	int i;
+
+	i = 0;
+	if (str != NULL)
 	{
-		while (*s)
-			ft_putchar(*s++);
+		while (str[i])
+		{
+			ft_putchar(str[i]);
+			i++;
+		}
 	}
+	return (1);
 }

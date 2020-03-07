@@ -3,67 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:16:47 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:19 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/09 23:12:36 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/11/22 22:27:58 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_neg(int n)
+static int		len(int n)
 {
-	if (n < 0)
-		return (1);
-	return (0);
-}
+	int		i;
+	int		nb;
 
-static int	number_len(int nb)
-{
-	int		res;
-	long	n;
-
-	res = 0;
-	if (nb == 0)
-		return (1);
+	i = 0;
+	nb = n;
 	if (nb < 0)
 	{
-		res++;
-		n = -nb;
+		i++;
+		nb = nb * -1;
 	}
-	else
-		n = nb;
-	while (n > 0)
+	while (nb > 0)
 	{
-		res++;
-		n = n / 10;
+		nb = nb / 10;
+		i++;
 	}
-	return (res);
+	return (i);
 }
 
-char		*ft_itoa(int n)
+char			*ft_itoa(int n)
 {
-	int		num;
-	int		len;
-	char	*str;
+	int		lent;
+	char	*s;
+	int		i;
 
+	i = 0;
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	num = n;
-	len = number_len(n);
-	if (!(str = (char*)malloc(sizeof(*str) * (len + 1))))
+	if (n == 0)
+		return (ft_strdup("0"));
+	lent = len(n);
+	if (!(s = ft_strnew(lent)))
 		return (NULL);
-	str[len] = '\0';
-	if (is_neg(n))
-		num = -n;
-	while (len >= 0)
+	if (n < 0)
 	{
-		str[len - 1] = (num % 10 + 48);
-		num /= 10;
-		len--;
+		n = -n;
+		s[i] = '-';
+		i++;
 	}
-	if (is_neg(n))
-		str[0] = '-';
-	return (str);
+	while (--lent >= i && n > 0)
+	{
+		s[lent] = (n % 10 + '0');
+		n = n / 10;
+	}
+	return (s);
 }

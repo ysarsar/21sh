@@ -3,103 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 19:05:25 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/02/10 08:24:58 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/05/10 01:32:24 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/11/22 23:13:07 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
 
-int		line_copy(char **line, char *arr, char c)
+static int	ft_cp_line(char **line, char **arr)
 {
-	int len;
+	int			len;
+	char		*pfree;
 
 	len = 0;
-	while (arr[len] != '\0' && arr[len] != c)
+	pfree = *arr;
+	if (!(ft_strchr(pfree, '\n')))
+	{
+		*line = ft_strdup(*arr);
+		ft_strdel(arr);
+		return (1);
+	}
+	while (pfree[len] && pfree[len] != '\n')
 		len++;
-	if (!(*line = ft_strndup(arr, len)))
-		return (0);
-	return (len);
-}
-
-int		my_read(int fd, char **arr)
-{
-	int		res;
-	char	buff[BUFF_SIZE + 1];
-	char	*tmp;
-
-	while ((res = read(fd, buff, BUFF_SIZE)))
-	{
-		buff[res] = '\0';
-		tmp = *arr;
-		*arr = ft_strjoin(*arr, buff);
-		if (*arr == NULL)
-			return (-1);
-		free(tmp);
-		if (ft_is_there(buff, '\n'))
-			return (res);
-	}
-	return (res);
-}
-
-t_list	*get_valid(int fd, t_list **origin)
-{
-	t_list *ret;
-
-	if (!origin)
-		return (NULL);
-	ret = *origin;
-	while (ret != NULL)
-	{
-		if ((int)(ret->content_size) == fd)
-			return (ret);
-		ret = ret->next;
-	}
-	ret = ft_lstnew("", fd);
-	ft_lstadd(origin, ret);
-	return (ret);
-}
-
-void	free_lst(t_list **head)
-{
-	t_list *tmp;
-
-	tmp = *head;
-	while (tmp)
-	{
-		free(tmp->content);
-		tmp = tmp->next;
-	}
-	free(*head);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	static	t_list	*origin;
-	int				read_res;
-	char			buff[BUFF_SIZE + 1];
-	t_list			*valid;
-	char			*arr;
-
-	if (!line || read(fd, buff, 0) < 0 || !(valid = get_valid(fd, &origin)))
-		return (-1);
-	arr = valid->content;
-	read_res = my_read(fd, &arr);
-	valid->content = arr;
-	if (!read_res && !*arr)
-	{
-		free_lst(&valid);
-		return (0);
-	}
-	read_res = line_copy(line, arr, '\n');
-	if (arr[read_res] != '\0')
-	{
-		valid->content = ft_strdup(arr + read_res + 1);
-		ft_strdel(&arr);
-	}
-	else if (arr[read_res] == '\0')
-		ft_strclr(arr);
+	*line = ft_strsub(pfree, 0, len);
+	*arr = ft_strdup(ft_strchr(pfree, '\n') + 1);
+	free(pfree);
 	return (1);
+}
+
+int			get_next_line(const int fd, char **line)
+{
+	static char	*arr[4864];
+	char		buff[BUFF_SIZE + 1];
+	int			ret;
+	char		*ptr;
+
+	if (fd < 0 || read(fd, buff, 0) < 0 || BUFF_SIZE < 0 || fd > 4864 || !line)
+		return (-1);
+	if (arr[fd] == NULL)
+		arr[fd] = ft_strnew(0);
+	while (!(ft_strchr(arr[fd], '\n')) && (ret = read(fd, buff, BUFF_SIZE)) > 0)
+	{
+		buff[ret] = '\0';
+		ptr = arr[fd];
+		arr[fd] = ft_strjoin(arr[fd], buff);
+		free(ptr);
+	}
+	if (ret <= 0 && !*arr[fd])
+	{
+		ft_strdel(&arr[fd]);
+		return (ret);
+	}
+	return (ft_cp_line(line, &arr[fd]));
 }

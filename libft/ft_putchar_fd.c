@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:19:22 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:39 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/05 15:03:25 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/04/05 15:29:04 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, (unsigned char*)(&c), 1);
+	write(fd, &c, 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:05:50 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:07 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/01 17:05:14 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/12/03 03:07:19 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,26 @@
 
 int		ft_atoi(const char *str)
 {
-	int	res;
-	int	i;
-	int	sign;
+	unsigned int	i;
+	unsigned int	sing;
+	unsigned int	res;
 
-	sign = 1;
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-	|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
+	sing = 1;
+	while (ft_space(str[i]) == 1)
 		i++;
-	if (str[i] == '-')
-	{
-		sign = -1;
+	if (str[i] == '+')
 		i++;
-	}
-	else if (str[i] == '+')
+	else if (str[i] == '-')
 	{
+		sing = sing * -1;
 		i++;
 	}
 	res = 0;
-	while (str[i] != '\0' && (str[i] >= '0' && str[i] <= '9'))
+	while (str[i] != '\0' && (str[i] <= '9' && str[i] >= '0'))
 	{
 		res = res * 10 + (str[i] - 48);
 		i++;
 	}
-	return (res * sign);
+	return (res * sing);
 }

@@ -6,40 +6,11 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 22:34:17 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/03 23:13:32 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/07 08:52:14 by ysarsar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sh.h"
-
-void		ft_word_type(t_parse **ast, t_token **tok)
-{
-	t_parse		*current;
-	t_token		*token;
-	char		*tmp;
-
-	current = *ast;
-	token = *tok;
-	if (!(current->cmd))
-	{
-		if (token->value)
-			current->cmd = ft_strdup(token->value);
-		else
-			current->cmd = ft_strnew(1);
-	}
-	else
-	{
-		if (token->value)
-		{
-			tmp = ft_strjoin(current->cmd, " ");
-			free(current->cmd);
-			tmp[ft_strlen(tmp) - 1] = -1;
-			current->cmd = ft_strjoin(tmp, token->value);
-			ft_strdel(&tmp);
-		}
-	}
-	*ast = current;
-}
 
 int			ft_separateur_type(t_parse **ast, t_parse *current, t_token *token)
 {
@@ -78,7 +49,7 @@ int			ft_pipe_type(t_parse **ast, t_token *token)
 	return (1);
 }
 
-static	char	*ft_document(char *redir_right)
+char		*ft_document(char *redir_right)
 {
 	char	*heredoc;
 	char	*text;
@@ -88,34 +59,38 @@ static	char	*ft_document(char *redir_right)
 
 	c = 0;
 	text = NULL;
-	while (ft_strcmp((heredoc = readline("> ")), redir_right) != 0)
+	while (ft_strcmp((heredoc = my_readline(NULL, "> ")), redir_right) != 0)
 	{
 		tmp = ft_strjoin(heredoc, "\n");
-		if (!c)
-		{
-			text = tmp;
+		if (!c && (text = tmp))
 			c = 1;
-		}
 		else
 		{
 			ptr = text;
 			text = ft_strjoin(ptr, tmp);
 			free_str(ptr, tmp);
 		}
-		printf("h\n");
-		if (heredoc)
-			ft_strdel(&heredoc);
-	}
-	if (heredoc)
 		ft_strdel(&heredoc);
+	}
+	ft_strdel(&heredoc);
 	return (text);
+}
+
+static	int	ft_heredoc(t_token *token, t_redirection **redir)
+{
+	char	*heredoc;
+
+	heredoc = ft_document(token->value);
+	ft_strdel(&(*redir)->right);
+	if (heredoc)
+		(*redir)->right = heredoc;
+	return (1);
 }
 
 int			ft_redirection_type(t_parse **ast, t_token *token)
 {
 	t_parse			*current;
 	t_redirection	**redir;
-	char			*heredoc;
 
 	current = *ast;
 	redir = &current->redirection;
@@ -132,12 +107,7 @@ int			ft_redirection_type(t_parse **ast, t_token *token)
 	{
 		(*redir)->right = ft_strdup(token->value);
 		if ((*redir)->type == HEREDOC)
-		{
-			heredoc = ft_document(token->value);
-			ft_strdel(&(*redir)->right);
-			if (heredoc)
-				(*redir)->right = heredoc;
-		}
+			ft_heredoc(token, redir);
 	}
 	else
 		(*redir)->type = token->type;

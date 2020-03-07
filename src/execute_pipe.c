@@ -33,7 +33,7 @@ static	void			execute_pipe2(t_parse *ast, t_pipe_variable **var)
 }
 
 static	t_pipe_variable	*execute_pipe1(t_parse *ast, t_pipe_variable **var,
-										char **tab, t_env **envp)
+										char **tabs, t_env **envp)
 {
 	t_parse			*current;
 	t_pipe_variable *variable;
@@ -46,7 +46,7 @@ static	t_pipe_variable	*execute_pipe1(t_parse *ast, t_pipe_variable **var,
 	if (variable->pid == 0)
 	{
 		execute_pipe2(current, &variable);
-		execute_simple_cmd(current->cmd, tab, envp);
+		execute_simple_cmd(current->cmd, tabs, envp);
 		exit(0);
 	}
 	close(variable->pip[1]);
@@ -57,7 +57,7 @@ static	t_pipe_variable	*execute_pipe1(t_parse *ast, t_pipe_variable **var,
 	return (variable);
 }
 
-int						execute_pipe(t_parse *ast, t_env **envp, char **tab,
+int						execute_pipe(t_parse *ast, t_env **envp, char **tabs,
 									char *tty)
 {
 	t_pipe_variable	*variable;
@@ -71,7 +71,7 @@ int						execute_pipe(t_parse *ast, t_env **envp, char **tab,
 	variable->tty = tty;
 	while (current)
 	{
-		variable = execute_pipe1(current, &variable, tab, envp);
+		variable = execute_pipe1(current, &variable, tabs, envp);
 		current = current->pipe;
 	}
 	close(variable->tmp);

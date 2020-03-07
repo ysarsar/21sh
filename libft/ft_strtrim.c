@@ -3,38 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:24:30 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:26:25 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/04/05 18:01:06 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/10/17 16:32:15 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_white(char c, char a)
+static	int		ft_isspace(char c)
 {
-	if (c == a)
+	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	return (0);
 }
 
-char		*ft_strtrim(char const *s, char a)
+static	int		space_plus(char *str)
 {
-	int				end;
-	unsigned int	start;
-	char			*str;
+	size_t	i;
 
-	if (s == NULL)
-		return (NULL);
-	start = 0;
-	while (s[start] && is_white(s[start], a))
-		start++;
-	end = (int)ft_strlen(s) - 1;
-	while (s[end] && is_white(s[end], a) && end > (int)start)
-		end--;
-	str = ft_strsub(s, start, (end - start + 1));
-	if (str == NULL)
-		return (NULL);
-	return (str);
+	i = 0;
+	if (ft_isspace(str[i]) == 1)
+	{
+		while (ft_isspace(str[i]) == 1)
+		{
+			i++;
+			if (str[i + 1] == '\0')
+				return (0);
+		}
+		return (i);
+	}
+	return (0);
+}
+
+static	int		space_min(char *str)
+{
+	size_t	i;
+	size_t	j;
+
+	i = ft_strlen(str) - 1;
+	while (ft_isspace(str[i]) == 1)
+		i--;
+	j = ft_strlen(str) - i - 1;
+	return (j);
+}
+
+char			*ft_strtrim(char const *s)
+{
+	int		i;
+	char	*str;
+	char	*arr;
+
+	str = (char*)s;
+	if (s != NULL)
+	{
+		i = (ft_strlen(str) - (space_plus(str) + space_min(str)));
+		arr = ft_strsub(str, space_plus(str), i);
+		if (arr == NULL)
+			return (NULL);
+		return (arr);
+	}
+	return (NULL);
 }

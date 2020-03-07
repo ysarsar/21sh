@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 04:33:50 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/02/29 07:57:55 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 04:33:28 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_env_owd(char *cwd, t_env *envp)
 	current = envp;
 	while (current)
 	{
-		if (strncmp("OLDPWD=", current->data, ft_strlen("OLDPWD=")) == 0)
+		if (ft_strncmp("OLDPWD=", current->data, ft_strlen("OLDPWD=")) == 0)
 			break ;
 		current = current->next;
 	}

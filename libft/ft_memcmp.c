@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:18:29 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:25:32 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/03/31 15:03:34 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/04/17 21:24:30 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	const unsigned char	*ps1;
-	const unsigned char	*ps2;
+	size_t			i;
+	unsigned char	*s11;
+	unsigned char	*s22;
 
-	ps1 = s1;
-	ps2 = s2;
-	while (n--)
+	i = 0;
+	s11 = (unsigned char*)s1;
+	s22 = (unsigned char*)s2;
+	if (n == 0)
+		return (0);
+	while (i < n)
 	{
-		if (*ps1 != *ps2)
-		{
-			return (*ps1 - *ps2);
-		}
-		ps1++;
-		ps2++;
+		if (s11[i] == s22[i] && i + 1 == n)
+			return (s11[i] - s22[i]);
+		if (s11[i] != s22[i])
+			return (s11[i] - s22[i]);
+		i++;
 	}
-	return (0);
+	return (s11[i] - s22[i]);
 }

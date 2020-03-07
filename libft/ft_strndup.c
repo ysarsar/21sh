@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ommadhi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:22:31 by ysarsar           #+#    #+#             */
-/*   Updated: 2019/12/11 18:26:13 by ysarsar          ###   ########.fr       */
+/*   Created: 2019/10/16 18:56:44 by ommadhi           #+#    #+#             */
+/*   Updated: 2019/11/25 22:09:30 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-char		*ft_strndup(const char *s1, size_t n)
+char			*ft_strndup(const char *s, int size)
 {
-	char	*str;
-	int		i;
+	int			i;
+	char		*str;
+	char		*src;
 
-	str = (char *)malloc(sizeof(*str) * (n + 1));
-	if (str == NULL)
+	src = (char*)s;
+	if (!(str = (char*)malloc((size + 1) * sizeof(char))))
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0' && n)
+	while (src[i] && i < size)
 	{
-		str[i] = s1[i];
+		str[i] = src[i];
 		i++;
-		n--;
 	}
 	str[i] = '\0';
 	return (str);

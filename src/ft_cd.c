@@ -6,7 +6,7 @@
 /*   By: ysarsar <ysarsar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 02:20:55 by ysarsar           #+#    #+#             */
-/*   Updated: 2020/03/04 02:09:47 by ysarsar          ###   ########.fr       */
+/*   Updated: 2020/03/04 04:32:58 by ommadhi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	int		ft_cd_back(char *cwd, t_env *envp)
 	return (1);
 }
 
-static	int		ft_cd_dir(char *cwd, t_env *envp, char **args)
+static	int		ft_cd_dir(char **args)
 {
 	if (chdir(args[1]) < 0)
 	{
@@ -73,7 +73,7 @@ int				ft_cd_glob(char *home, char **args, t_env *envp, char *var)
 		else
 		{
 			if (args[1][0] == '/')
-				return (ft_cd_dir(cwd, envp, args));
+				return (ft_cd_dir(args));
 			else
 			{
 				if (cwd)
